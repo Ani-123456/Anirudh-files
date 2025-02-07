@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header a, header h1 {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header h1 {
+            float: left;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        header nav a {
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+        }
+        header nav a:hover {
+            background: #77aaff;
+        }
+        .main {
+            padding: 20px;
+            background: #fff;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .main h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+        .workout-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .workout-form input, .workout-form select, .workout-form button {
+            padding: 10px;
+            margin: 5px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .workout-list {
+            margin-top: 20px;
+        }
+        .workout-item {
+            background: #eee;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Workout Tracker</h1>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container main">
+        <h2>Track Your Workouts</h2>
+        <form id="workout-form" class="workout-form">
+            <input type="text" id="exercise" placeholder="Exercise Name" required>
+            <select id="category" required>
+                <option value="">Category</option>
+                <option value="cardio">Cardio</option>
+                <option value="strength">Strength</option>
+                <option value="flexibility">Flexibility</option>
+                <option value="balance">Balance</option>
+            </select>
+            <input type="number" id="duration" placeholder="Duration (minutes)" required>
+            <button type="submit">Add Workout</button>
+        </form>
+        <div id="workout-list" class="workout-list"></div>
+    </div>
+    <script>
+        document.getElementById('workout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const exercise = document.getElementById('exercise').value;
+            const category = document.getElementById('category').value;
+            const duration = document.getElementById('duration').value;
+
+            // Create a new workout item
+            const workoutItem = document.createElement('div');
+            workoutItem.className = 'workout-item';
+            workoutItem.innerHTML = `
+                <strong>${exercise}</strong> - ${category} - ${duration} minutes
+                <button onclick="this.parentElement.remove()">Remove</button>
+            `;
+
+            // Add workout item to the list
+            document.getElementById('workout-list').appendChild(workoutItem);
+
+            // Clear form fields
+            document.getElementById('workout-form').reset();
+        });
+    </script>
+</body>
+</html>
