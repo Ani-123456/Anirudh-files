@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .question {
+            font-size: 20px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 10px 0;
+        }
+        .result {
+            font-size: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div id="quiz">
+            <div class="question" id="question">Question text</div>
+            <ul class="options">
+                <li><label><input type="radio" name="option" value="0"> <span id="option0">Option 1</span></label></li>
+                <li><label><input type="radio" name="option" value="1"> <span id="option1">Option 2</span></label></li>
+                <li><label><input type="radio" name="option" value="2"> <span id="option2">Option 3</span></label></li>
+                <li><label><input type="radio" name="option" value="3"> <span id="option3">Option 4</span></label></li>
+            </ul>
+            <button onclick="submitAnswer()">Submit</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Lisbon"],
+                correct: 2
+            },
+            {
+                question: "What is 2 + 2?",
+                options: ["3", "4", "5", "6"],
+                correct: 1
+            },
+            {
+                question: "Who wrote 'To Kill a Mockingbird'?",
+                options: ["Harper Lee", "Jane Austen", "Mark Twain", "Ernest Hemingway"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionElements = document.querySelectorAll('.options span');
+
+            questionElement.textContent = quizData[currentQuestion].question;
+            optionElements.forEach((element, index) => {
+                element.textContent = quizData[currentQuestion].options[index];
+            });
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (selectedOption) {
+                const answer = parseInt(selectedOption.value, 10);
+                if (answer === quizData[currentQuestion].correct) {
+                    score++;
+                }
+                currentQuestion++;
+                if (currentQuestion < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            } else {
+                alert("Please select an option!");
+            }
+        }
+
+        function showResult() {
+            const quizElement = document.getElementById('quiz');
+            const resultElement = document.getElementById('result');
+
+            quizElement.style.display = 'none';
+            resultElement.style.display = 'block';
+            resultElement.textContent = `You scored ${score} out of ${quizData.length}`;
+        }
+
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>
